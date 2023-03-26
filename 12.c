@@ -1,96 +1,79 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node
+struct node
 {
     int data;
     struct node *left;
     struct node *right;
-} Node;
+};
 
-Node *root = NULL;
-
-Node *newNode(int data)
+struct node *create_node(int data)
 {
-    Node *temp = (Node *)malloc(sizeof(Node));
-    temp->data = data;
-    temp->left = temp->right = NULL;
-    return temp;
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->data = data;
+    newnode->left = NULL;
+    newnode->right = NULL;
+    return newnode;
 }
 
-Node *insert(Node *node, int data)
+struct node *construct_tree()
 {
-    if (node == NULL)
-        return newNode(data);
-    if (data < node->data)
-        node->left = insert(node->left, data);
-    else if (data > node->data)
-        node->right = insert(node->right, data);
-    return node;
+    int data;
+    printf("enter the data (enter -1 for no node)\n");
+    scanf("%d",&data);
+    if(data==-1)
+    {
+        return NULL;
+    }
+    struct node *root = create_node(data);
+    printf("enter left child for data %d \n",data);
+    root->left = construct_tree();
+    printf("enter right child for data %d \n",data);
+    root->right = construct_tree();
+    return root;
 }
 
-void inorder(Node *root)
+void inorder(struct node *root)
 {
-    if (root != NULL)
+    if(root!=NULL)
     {
         inorder(root->left);
-        printf("%d ", root->data);
+        printf("%d",root->data);
         inorder(root->right);
     }
 }
 
-void preorder(Node *root)
+void preorder(struct node *root)
 {
-    if (root != NULL)
+    if(root!=NULL)
     {
-        printf("%d ", root->data);
+        printf("%d",root->data);
         preorder(root->left);
         preorder(root->right);
     }
 }
 
-void postorder(Node *root)
+void postorder(struct node *root)
 {
-    if (root != NULL)
+    if(root!=NULL)
     {
         postorder(root->left);
         postorder(root->right);
-        printf("%d ", root->data);
+        printf("%d",root->data);
     }
 }
 
 int main()
 {
-    int choice, value;
-    while (1)
-    {
-        printf("\n\n***** MENU *****\n");
-        printf("1. Insert\n2. Inorder Traversal\n3. Preorder Traversal\n4. Postorder Traversal\n5. Exit");
-        printf("\nEnter your choice: ");
-        scanf("%d", &choice);
-        switch (choice)
-        {
-        case 1:
-            printf("Enter the value to be inserted: ");
-            scanf("%d", &value);
-            root = insert(root, value);
-            break;
-        case 2:
-            printf("\nInorder Traversal: ");
-            inorder(root);
-            break;
-        case 3:
-            printf("\nPreorder Traversal: ");
-            preorder(root);
-            break;
-        case 4:
-            printf("\nPostorder Traversal: ");
-            postorder(root);
-            break;
-        case 5:
-            exit(0);
-        default:
-            printf("\nWrong selection!!! Please try again!!!\n");
-        }
-    }
+    struct node *root=NULL;
+    printf("construct a binary tree\n");
+    root = construct_tree();
+    printf("inorder : ");
+    inorder(root);
+    printf("\npreorder : ");
+    preorder(root);
+    printf("\npostorder : ");
+    postorder(root);
+    return 0;
 }
