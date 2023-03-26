@@ -86,6 +86,8 @@ int main()
         case 4:
             delete ();
             break;
+        case 5:
+            break;
         default:
             printf("Wrong choice\n");
         }
