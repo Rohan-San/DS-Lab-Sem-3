@@ -1,28 +1,33 @@
 #include <stdio.h>
 
-int binarySearch(int arr[], int low, int high, int key)
+int binarySearch(int arr[], int l, int r, int x)
 {
-    if (high >= low)
+    if (r >= l)
     {
-        int mid = low + (high - low) / 2;
-        if (arr[mid] == key)
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == x)
             return mid;
-        if (arr[mid] > key)
-            return binarySearch(arr, low, mid - 1, key);
-        return binarySearch(arr, mid + 1, high, key);
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+        return binarySearch(arr, mid + 1, r, x);
     }
     return -1;
 }
 
-int main()
+int main(void)
 {
-    int arr[] = {2, 3, 4, 10, 40};
-    int n = sizeof(arr) / sizeof(arr[0]);
-    int key = 10;
-    int result = binarySearch(arr, 0, n - 1, key);
-    if (result == -1)
-        printf("Element is not present in array");
-    else
-        printf("Element is present at index %d", result);
+    int n, x, i;
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+    int arr[n];
+    printf("Enter %d elements in the array: \n", n);
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    printf("Enter the element to be searched: ");
+    scanf("%d", &x);
+    int res = binarySearch(arr, 0, n - 1, x);
+    (res == -1) ? printf("Element is not present in array") : printf("Element is present at index %d", res);
     return 0;
 }
